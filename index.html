@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>생태 & 환경 퀴즈</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(135deg, #d0f1e8, #f2f9f7);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .quiz-container {
+    width: 90%;
+    max-width: 600px;
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    animation: fade 0.4s ease;
+  }
+  @keyframes fade { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    color: #2a564f;
+  }
+  .question { margin-bottom: 20px; font-size: 1.2rem; color: #24403c; }
+  .choices { list-style: none; }
+  .choices li {
+    background: #e8f6f2;
+    padding: 12px 14px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .choices li:hover { background: #ccebe3; }
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #2a8f72;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  button:hover { background: #1e6c56; }
+  .score {
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: #24403c;
+  }
+</style>
+</head>
+<body>
+<div class="quiz-container">
+  <h1>생태 & 환경 퀴즈</h1>
+  <div id="quiz"></div>
+  <button id="nextBtn">다음</button>
+</div>
+
+<script>
+const questions = [
+  { q: "지구 대기의 대부분을 차지하는 기체는?", c: ["산소", "질소", "이산화탄소", "수소"], a: 1 },
+  { q: "플라스틱 쓰레기가 모여 만들어진 바다의 거대한 쓰레기 지대를 무엇이라 하는가?", c: ["오염 고리", "플라스틱 벨트", "쓰레기 섬", "태평양 쓰레기 지대"], a: 3 },
+  { q: "기후 변화의 주요 원인으로 가장 큰 영향을 미치는 기체는?", c: ["아르곤", "메탄", "이산화탄소", "헬륨"], a: 2 },
+  { q: "산림 벌채가 심해질 경우 가장 직접적으로 감소하는 것은?", c: ["바닷물의 염도", "이산화탄소 농도", "생물다양성", "오존층 두께"], a: 2 },
+  { q: "환경 보호를 위해 권장되는 3R이 아닌 것은?", c: ["Reduce", "Reuse", "Recycle", "Replace"], a: 3 },
+  { q: "생태계에서 생산자의 역할을 하는 것은?", c: ["초식동물", "식물", "육식동물", "분해자"], a: 1 },
+  { q: "지구 온난화로 인해 가장 먼저 영향을 받는 지역은?", c: ["사막", "열대우림", "극지방", "온대 지역"], a: 2 },
+  { q: "바다 거북이에게 가장 큰 위협이 되는 해양 쓰레기는?", c: ["유리병", "고철", "비닐봉지", "목재"], a: 2 },
+  { q: "생물다양성이 높은 지역으로 알려진 것은?", c: ["사막", "산꼭대기", "열대우림", "빙하"], a: 2 },
+  { q: "다음 중 지속 가능한 행동이 아닌 것은?", c: ["대중교통 이용", "일회용품 사용 줄이기", "물 절약", "매일 새 옷 구매"], a: 3 }
+];
+
+let current = 0;
+let score = 0;
+
+function renderQuestion() {
+  const quizDiv = document.getElementById("quiz");
+  if (current >= questions.length) {
+    quizDiv.innerHTML = `<p class="score">점수: ${score} / ${questions.length}</p>`;
+    document.getElementById("nextBtn").style.display = "none";
+    return;
+  }
+
+  const q = questions[current];
+  quizDiv.innerHTML = `
+    <p class="question">${q.q}</p>
+    <ul class="choices">
+      ${q.c.map((choice,i)=>`<li onclick="selectAnswer(${i})">${choice}</li>`).join("")}
+    </ul>
+  `;
+}
+
+function selectAnswer(i) {
+  if (i === questions[current].a) score++;
+  current++;
+  renderQuestion();
+}
+
+document.getElementById("nextBtn").addEventListener("click", ()=>{
+  current++;
+  renderQuestion();
+});
+
+renderQuestion();
+</script>
+</body>
+</html>
